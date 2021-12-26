@@ -1,70 +1,55 @@
-import {
-    noteCategories,
-    noteProperties
-} from '../constants';
-
-const {
-    NAME,
-    CREATED,
-    CATEGORY,
-    CONTENT,
-    DATES
-} = noteProperties;
+import {Note} from '../classes';
+import {noteCategories} from '../constants';
 
 export default [
-    {
-        [NAME]: 'Shopping list',
-        [CREATED]: '',
-        [CATEGORY]: noteCategories.TASK,
-        [CONTENT]: '',
-        [DATES]: ''
-    },
+    new Note(
+        'Shopping list',
+        '',
+        noteCategories.TASK,
+        ''
+    ),
 
-    {
-        [NAME]: 'The theory of evolution',
-        [CREATED]: '',
-        [CATEGORY]: noteCategories.RANDOM_THOUGHT,
-        [CONTENT]: '',
-        [DATES]: ''
-    },
+    new Note(
+        'The theory of evolution',
+        '',
+        noteCategories.RANDOM_THOUGHT,
+        'I’m gonna have a dentist appointment on the 3/5/2021, I moved it from 5/5/2021'
+    ),
 
-    {
-        [NAME]: 'New future',
-        [CREATED]: '',
-        [CATEGORY]: noteCategories.IDEA,
-        [CONTENT]: '',
-        [DATES]: ''
-    },
+    new Note(
+        'New future',
+        '',
+        noteCategories.IDEA,
+        ''
+    ),
 
-    {
-        [NAME]: 'William Gaddis',
-        [CREATED]: '',
-        [CATEGORY]: noteCategories.TASK,
-        [CONTENT]: '',
-        [DATES]: ''
-    },
+    new Note(
+        'William Gaddis',
+        '',
+        noteCategories.TASK,
+        ''
+    ),
 
-    {
-        [NAME]: 'Books',
-        [CREATED]: '',
-        [CATEGORY]: noteCategories.TASK,
-        [CONTENT]: '',
-        [DATES]: ''
-    },
+    new Note(
+        'Books',
+        '',
+        noteCategories.TASK,
+        '',
+        1
+    ),
 
-    {
-        [NAME]: 'Some idea',
-        [CREATED]: '',
-        [CATEGORY]: noteCategories.IDEA,
-        [CONTENT]: '',
-        [DATES]: ''
-    },
+    new Note(
+        'Some idea',
+        '',
+        noteCategories.IDEA,
+        ''
+    ),
 
-    {
-        [NAME]: 'New project',
-        [CREATED]: '',
-        [CATEGORY]: noteCategories.RANDOM_THOUGHT,
-        [CONTENT]: '',
-        [DATES]: ''
-    },
+    new Note(
+        'New project',
+        '',
+        noteCategories.RANDOM_THOUGHT,
+        '',
+        1
+    ),
 ];

@@ -1,5 +1,5 @@
 import findDates from './findDates.js';
 
-export {
+export default {
     findDates
 };
