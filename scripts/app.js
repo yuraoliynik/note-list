@@ -1,11 +1,12 @@
 import {notes} from '../data';
 import tools from '../tools';
+import handlers from '../handlers';
 
 const noteTableBody = document.querySelector('.note-table-body');
 
 const activeNotes = notes.filter(note => note.archive === 0);
 
-activeNotes.forEach(note => {
+activeNotes.forEach((note, index) => {
     const noteRow = noteTableBody.appendChild(document.createElement('div'));
     noteRow.className = 'note-table-row';
 
@@ -16,6 +17,17 @@ activeNotes.forEach(note => {
             noteColumn.innerText = note[property];
         }
     }
+
+    //start
+    // const edit = noteRow.appendChild(document.createElement('div'));
+    // edit.innerText = `EDIT ${index}`;
+    // edit.onclick = (event) => {
+    //     console.log(event.target);
+    //     const editForm = document.createElement('div')
+    //     noteTableBody.insertBefore(editForm, noteRow.nextSibling);
+    //     editForm.className = 'editForm';
+    //     editForm.innerText = 'form';
+    // }
 });
 
 const groupedNotesObj = tools.groupNotesByCategory(notes);
@@ -38,5 +50,7 @@ summarizedNotes.forEach(summaryByCategory => {
 });
 
 const createButton = document.querySelector('.create-button');
-createButton.
-console.log(summarizedNotes);
+createButton.addEventListener('click', handlers.clickCreateButton);
+
+const saveButton = document.querySelector('.save-button');
+saveButton.addEventListener('click', handlers.clickSaveButton);

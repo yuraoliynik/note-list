@@ -33,3 +33,35 @@
     justify-content: center;
     width: calc(100% / 3);
 }
+
+.create-form {
+    display: none;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.form-input-block {
+    display: flex;
+    width: 70%;
+}
+
+.form-input {
+    display: flex;
+    justify-content: center;
+    width: calc(100% / 4);
+}
+
+.create-button,
+.save-button {
+    width: 180px;
+    height: 25px;
+}
+
+.create-button-wrap {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.editForm {
+    width: 1000px;
+}
