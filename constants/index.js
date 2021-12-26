@@ -1,7 +1,5 @@
-import noteCategories from './noteCategory.enum.js';
-import noteProperties from './noteProperty.enum.js';
+import noteCategoryNames from './noteCategoryName.enum.js';
 
 export {
-    noteCategories,
-    noteProperties
+    noteCategoryNames
 };

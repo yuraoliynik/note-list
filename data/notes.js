@@ -1,39 +1,39 @@
 import {Note} from '../classes';
-import {noteCategories} from '../constants';
+import {noteCategoryNames} from '../constants';
 
 export default [
     new Note(
         'Shopping list',
         '',
-        noteCategories.TASK,
+        noteCategoryNames.TASK,
         ''
     ),
 
     new Note(
         'The theory of evolution',
         '',
-        noteCategories.RANDOM_THOUGHT,
+        noteCategoryNames.RANDOM_THOUGHT,
         'I’m gonna have a dentist appointment on the 3/5/2021, I moved it from 5/5/2021'
     ),
 
     new Note(
         'New future',
         '',
-        noteCategories.IDEA,
+        noteCategoryNames.TASK,
         ''
     ),
 
     new Note(
         'William Gaddis',
         '',
-        noteCategories.TASK,
+        noteCategoryNames.TASK,
         ''
     ),
 
     new Note(
         'Books',
         '',
-        noteCategories.TASK,
+        noteCategoryNames.TASK,
         '',
         1
     ),
@@ -41,14 +41,14 @@ export default [
     new Note(
         'Some idea',
         '',
-        noteCategories.IDEA,
+        noteCategoryNames.TASK,
         ''
     ),
 
     new Note(
         'New project',
         '',
-        noteCategories.RANDOM_THOUGHT,
+        noteCategoryNames.RANDOM_THOUGHT,
         '',
         1
     ),

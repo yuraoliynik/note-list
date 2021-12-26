@@ -10,7 +10,8 @@
     background: silver;
 }
 
-.note-table-row {
+.note-table-row,
+.summary-table-row {
     display: flex;
     /*background: silver;*/
 }

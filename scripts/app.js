@@ -2,12 +2,10 @@ import {notes} from '../data';
 import tools from '../tools';
 
 const noteTableBody = document.querySelector('.note-table-body');
-const summaryTableBody = document.querySelector('.summary-table-body');
 
 const activeNotes = notes.filter(note => note.archive === 0);
-const archiveNotes = notes.filter(note => note.archive === 1);
 
-activeNotes.map(note => {
+activeNotes.forEach(note => {
     const noteRow = noteTableBody.appendChild(document.createElement('div'));
     noteRow.className = 'note-table-row';
 
@@ -20,24 +18,25 @@ activeNotes.map(note => {
     }
 });
 
-const summaryNotes = {
-    noteCategory: '',
-    active: '',
-    archive: ''
-}
+const groupedNotesObj = tools.groupNotesByCategory(notes);
 
-activeNotes.map(note => {
-    const noteRow = noteTableBody.appendChild(document.createElement('div'));
-    noteRow.className = 'note-table-row';
+const summarizedNotes = tools.summaryNotesByCategory(groupedNotesObj);
 
-    for (const property in note) {
-        if (property !== 'archive') {
+const summaryTableBody = document.querySelector('.summary-table-body');
+
+summarizedNotes.forEach(summaryByCategory => {
+    const noteRow = summaryTableBody.appendChild(document.createElement('div'));
+    noteRow.className = 'summary-table-row';
+
+    for (const property in summaryByCategory) {
+        if (property !== 'notes') {
             const noteColumn = noteRow.appendChild(document.createElement('div'));
-            noteColumn.className = 'note-table-column';
-            noteColumn.innerText = note[property];
-
+            noteColumn.className = 'summary-table-column';
+            noteColumn.innerText = summaryByCategory[property];
         }
     }
-})
+});
 
-console.log(tools.findDates());
+const createButton = document.querySelector('.create-button');
+createButton.
+console.log(summarizedNotes);
