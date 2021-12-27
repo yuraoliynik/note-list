@@ -1,5 +1,7 @@
-import notes from './notes.js';
+import notesCollection from './notesCollection.js';
+import startDataNotes from './startDataNotes.js';
 
 export {
-    notes
+    notesCollection,
+    startDataNotes
 };

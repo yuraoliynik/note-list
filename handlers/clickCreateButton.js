@@ -9,7 +9,7 @@ export default function clickCreateButton() {
 
     const dateNow = new Date();
     const year = dateNow.getFullYear();
-    const month = dateNow.getMonth();
+    const month = dateNow.getMonth() + 1;
     const day = dateNow.getDate();
 
     dateInput.value = `${year}-${month}-${day}`;

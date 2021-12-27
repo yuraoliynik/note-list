@@ -11,11 +11,7 @@ export default function clickSaveButton() {
 
     const name = inputs[0].value;
 
-    const date = new Date(inputs[1].value);
-    const created = new Intl.DateTimeFormat(
-        'en-US',
-        {month: 'short', year: 'numeric', day: 'numeric'}
-    ).format(date);
+    const created = new Date(inputs[1].value);
 
     const category = inputs[2].value;
 

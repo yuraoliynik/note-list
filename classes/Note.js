@@ -2,12 +2,27 @@ import tools from '../tools';
 
 export default class Note {
 
-    constructor(name, created, category, content, archive = 0) {
+    constructor(name, created = '', category, content, archive = 0) {
         this.name = name;
-        this.created = created;
+
+        if (!created) {
+            created = new Date();
+        }
+
+        this.created = new Intl
+            .DateTimeFormat(
+            'en-US',
+            {
+                month: 'short',
+                year: 'numeric',
+                day: 'numeric'}
+            )
+            .format(
+                new Date(created)
+            );
+
         this.category = category;
         this.content = content;
-        this.archive = archive;
 
         Object.defineProperty(
             this,
@@ -23,6 +38,15 @@ export default class Note {
                     return '';
                 }
             }
+        );
+
+
+        this.archive = archive;
+
+        Object.defineProperty(
+            this,
+            'archive',
+            {enumerable: false}
         );
     }
 };
