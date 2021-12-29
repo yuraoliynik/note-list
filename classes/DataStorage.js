@@ -1,37 +1,28 @@
 export default class DataStorage {
     #storage;
     #countData;
-    #newDataKey = 0;
 
-    constructor(array = []) {
+    constructor(array) {
         this.#storage = [...array];
+
+        this.#storage.forEach((item, index) => item.id = index);
 
         this.#countData = array.reduce(
             (count, item) => ++count,
             0
         );
-
-        ++this.#newDataKey;
     }
 
     getData() {
         return this.#storage;
     };
 
-    get count() {
-        return this.#countData;
-    };
+    insertData(dataObject) {
+        dataObject.id = this.#storage.length;
 
-    getEditDataKey() {
-        return this.#newDataKey;
-    }
+        this.#storage.push(dataObject);
 
-    insertData(data) {
-        this.#storage.push(data);
-
-        ++this.#countData;
-
-        return ++this.#newDataKey;
+        return ++this.#countData;
     }
 
     editData(index, propertyObject) {
@@ -40,14 +31,12 @@ export default class DataStorage {
             propertyObject
         );
 
-        return ++this.#newDataKey;
+        return this.#storage[index];
     }
 
     deleteData(index) {
         delete this.#storage[index];
 
-        --this.#countData;
-
-        return ++this.#newDataKey;
+        return --this.#countData;
     }
 };

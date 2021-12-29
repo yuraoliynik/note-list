@@ -1,8 +1,8 @@
 export default function clickCreateButton() {
     const createButton = document.querySelector('.create-button-wrap');
-    createButton.style.display = 'none';
+    createButton.hidden = false;
 
-    const createForm = document.querySelector('.create-form');
+    const createForm = document.querySelector('.note-form');
     createForm.style.display = 'flex';
 
     const dateInput = document.querySelector('.date-input');

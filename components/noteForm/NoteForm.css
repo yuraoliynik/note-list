@@ -1,0 +1,25 @@
+.note-form {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.note-form__input-block {
+    display: flex;
+    width: 70%;
+}
+
+.note-form__button-block {
+    display: flex;
+    flex-flow: row;
+}
+
+.control-element{
+    display: flex;
+    width: calc(100% / 4);
+}
+
+.note-form__button {
+    width: 180px;
+    height: 25px;
+}

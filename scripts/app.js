@@ -1,105 +1,222 @@
-import handlers from '../handlers';
 import {notesCollection} from '../data';
+import NoteList from '../components/NoteList.js';
+import NoteForm from '../components/noteForm/NoteForm.js';
+import {Note} from '../classes';
+import SummaryList from '../components/SummaryList.js';
+import {noteActions, noteCategoryNames} from '../constants';
 import tools from '../tools';
+import ArchiveNoteList from '../components/ArchiveNoteList.js';
 
-
-//
-// function onClick(event) {
-//     let action = event.target.dataset.action;
-//     if (action) {
-//         this[action]();
-//     }
-// }
 
 const noteTableBody = document.querySelector('.note-table-body');
 
-const activeNotes = notesCollection.getData().filter(note => note.archive === 0);
-activeNotes.forEach((note, index) => {
-    const noteRow = noteTableBody.appendChild(document.createElement('div'));
-    noteRow.className = 'note-table-row';
+const notes = notesCollection.getData();
+const activeNotes = notes.filter(note => note.archive === 0);
 
-    for (const property in note) {
-        const noteColumn = noteRow.appendChild(document.createElement('div'));
-        noteColumn.className = 'note-table-column';
-        noteColumn.innerText = note[property];
-    }
-
-    //start
-    // const edit = noteRow.appendChild(document.createElement('div'));
-    // edit.innerText = `EDIT ${index}`;
-    // edit.onclick = (event) => {
-    //     console.log(event.target);
-    //     const editForm = document.createElement('div')
-    //     noteTableBody.insertBefore(editForm, noteRow.nextSibling);
-    //     editForm.className = 'editForm';
-    //     editForm.innerText = 'form';
-    // }
-});
-
-const groupedNotesObj = tools.groupNotesByCategory(notesCollection.getData());
-
-const summarizedNotes = tools.summaryNotesByCategory(groupedNotesObj);
+let noteList = NoteList(
+    noteTableBody,
+    '',
+    'note-table-row',
+    'note-table-column',
+    activeNotes
+);
 
 const summaryTableBody = document.querySelector('.summary-table-body');
+const summaryNotes = notesCollection.doSummary();
 
-summarizedNotes.forEach(summaryByCategory => {
-    const noteRow = summaryTableBody.appendChild(document.createElement('div'));
-    noteRow.className = 'summary-table-row';
-    // console.log(summaryByCategory);
+let summaryList = SummaryList(
+    summaryTableBody,
+    'summary-list',
+    'summary-table-row',
+    'summary-table-column',
+    summaryNotes
+);
 
-    for (const property in summaryByCategory) {
-        if (property !== 'notes') {
-            const noteColumn = noteRow.appendChild(document.createElement('div'));
-            noteColumn.className = 'summary-table-column';
-            noteColumn.innerText = summaryByCategory[property];
-        }
-    }
-});
+const createButton = document.querySelector('.create-button');
+createButton.dataset.action = noteActions.CREATE;
 
+let noteForm;
+let noteIndex;
 
-const a = {
-    save()
-    {
-        alert('сохраняю');
+const app = {
+    [noteActions.ACTIVE](event) {
+        console.log('active');
+
+        const activeNoteIndex = event.target.parentElement.id;
+
+        notesCollection.editData(
+            activeNoteIndex,
+            {archive: 0}
+        );
+
+        _renderListAndSummary();
     },
 
-    create() {
-        alert('загружаю');
-        summarizedNotes.forEach(summaryByCategory => {
-            const noteRow = summaryTableBody.appendChild(document.createElement('div'));
-            noteRow.className = 'summary-table-row';
-            // console.log(summaryByCategory);
+    [noteActions.ARCHIVE](event) {
+        console.log('archive');
 
-            for (const property in summaryByCategory) {
-                if (property !== 'notes') {
-                    const noteColumn = noteRow.appendChild(document.createElement('div'));
-                    noteColumn.className = 'summary-table-column';
-                    noteColumn.innerText = summaryByCategory[property];
+        const archiveNoteIndex = event.target.parentElement.id;
+
+        notesCollection.editData(
+            archiveNoteIndex,
+            {archive: 1}
+        );
+
+        _renderListAndSummary();
+    },
+
+    [noteActions.CANCEL]() {
+        console.log('cancel');
+
+        noteForm = noteForm.remove();
+
+        createButton.hidden = false;
+    },
+
+    [noteActions.CREATE]() {
+        console.log('create');
+
+        const dateNow = tools.formatDate(new Date());
+
+        if (!noteForm) {
+            createButton.hidden = true;
+
+            noteForm = NoteForm(
+                noteTableBody,
+                {
+                    dateForInput: dateNow
                 }
-            }
-        });
+            );
+        }
     },
 
-    search() {
-        alert('ищу');
+    [noteActions.DELETE](event) {
+        console.log('delete');
+
+        const noteIndex = event.target.parentElement.id;
+
+        notesCollection.deleteData(noteIndex);
+
+        _renderListAndSummary();
+    },
+
+    [noteActions.EDIT](event) {
+        console.log('edit');
+
+        const rowForEdit = event.target.parentElement.parentElement;
+        noteIndex = event.target.parentElement.id;
+
+        const {
+            name,
+            created,
+            category,
+            content
+        } = notes[noteIndex];
+
+        if (!noteForm) {
+            noteForm = NoteForm(
+                rowForEdit,
+                {
+                    name,
+                    created: tools.formatDate(created),
+                    category,
+                    content
+                }
+            );
+        }
+    },
+
+    [noteActions.SAVE](event) {
+        console.log('save');
+
+        const controlElements = document.getElementsByClassName('control-element');
+
+        const name = controlElements[0].value;
+        const created = new Date(controlElements[1].value);
+        const category = controlElements[2].value;
+        const content = controlElements[3].value;
+
+        const newNote = new Note(
+            name,
+            created,
+            category,
+            content
+        );
+
+        if (!noteIndex) {
+            notesCollection.insertData(newNote);
+        }
+
+        if (noteIndex !== undefined) {
+            const a = notesCollection.editData(
+                noteIndex,
+                {
+                    name: newNote.name,
+                    created: newNote.created,
+                    category: newNote.category,
+                    content: newNote.content
+                }
+            );
+
+            noteIndex = undefined;
+        }
+
+        noteForm = noteForm.remove();
+
+        createButton.hidden = false;
+
+        _renderListAndSummary();
     }
 };
 
 document.addEventListener('click', (event) => {
-    console.log(event.target.dataset.action);
     let action = event.target.dataset.action;
+
     if (action) {
-        a[action]();
+        app[action](event);
     }
 });
 
-const createButton = document.querySelector('.create-button');
-createButton.addEventListener('click', handlers.clickCreateButton);
+function _renderListAndSummary() {
+    const activeNotes = notes
+        .filter(note => note.archive === 0);
 
-const saveButton = document.querySelector('.save-button');
-saveButton.addEventListener('click', handlers.clickSaveButton);
+    noteList.remove();
 
-const noteTable = document.querySelector('.note-table');
-noteTable.addEventListener('click', (event) => {
-    console.log(event.target.dataset.action);
-});
+    noteList = NoteList(
+        noteTableBody,
+        '',
+        'note-table-row',
+        'note-table-column',
+        activeNotes
+    );
+
+    const summaryNotes = notesCollection.doSummary();
+
+    summaryList.remove();
+
+    summaryList = SummaryList(
+        summaryTableBody,
+        'summary-list',
+        'summary-table-row',
+        'summary-table-column',
+        summaryNotes
+    );
+}
+
+function _renderArchiveList(parentElement, previousElement, classes, categoryName) {
+    const notesByCategory = notes.filter(note => {
+        return note.category === categoryName &&
+            note.archive === 1;
+    });
+
+    const archiveNoteList = ArchiveNoteList(
+        parentElement,
+        classes,
+        'summary-table-row',
+        'summary-table-column',
+        notesByCategory
+    );
+
+    parentElement.insertBefore(archiveNoteList, previousElement.nextSibling);
+}

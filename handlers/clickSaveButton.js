@@ -1,13 +1,13 @@
 import {Note} from '../classes';
 
 export default function clickSaveButton() {
-    const createForm = document.querySelector('.create-form');
+    const createForm = document.querySelector('.note-form');
     createForm.style.display = 'none';
 
     const createButton = document.querySelector('.create-button-wrap');
     createButton.style.display = 'flex';
 
-    const inputs = document.getElementsByClassName('form-input');
+    const inputs = document.getElementsByClassName('note-form__input');
 
     const name = inputs[0].value;
 
