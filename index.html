@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <link rel="stylesheet" href="styles/main.css">
+
+        <title>Note App</title>
+    </head>
+
+    <body>
+        <div class="note-table">
+            <div class="note-table__header table__header">
+                <div class="header__data-block">
+                    <div class="note-table__cell table__cell">Name</div>
+                    <div class="note-table__cell table__cell">Created</div>
+                    <div class="note-table__cell table__cell">Category</div>
+                    <div class="note-table__cell table__cell">Content</div>
+                    <div class="note-table__cell table__cell">Dates</div>
+                </div>
+
+                <div class="header__action note-table__cell table__cell">Actions</div>
+            </div>
+
+            <div class="note-table__body"></div>
+        </div>
+
+        <div class="create-button__wrap">
+            <button class="create-button" data-action="create">Create Note</button>
+        </div>
+
+        <div class="summary-table">
+            <div class="summary-table__header table__header">
+                <div class="summary-table__cell table__cell">Note category</div>
+                <div class="summary-table__cell table__cell">Active</div>
+                <div class="summary-table__cell table__cell">Archive</div>
+            </div>
+
+            <div class="summary-table__body"></div>
+        </div>
+
+        <script type="module" src="scripts/app.js"></script>
+    </body>
+</html>
