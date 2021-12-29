@@ -1,5 +1,5 @@
 import Cell from '../cell/Cell.js';
-import {noteActions} from '../../constants';
+import noteActions from '../../constants/noteAction.enum.js';
 import Row from '../row/Row.js';
 
 const columnNames = [

@@ -1,5 +1,5 @@
-import {noteCategoryNames} from '../constants';
-import {DataStorage} from '../classes';
+import noteCategoryNames from '../constants/noteCategoryName.enum.js';
+import DataStorage from '../classes/DataStorage.js';
 import startDataNotes from './startDataNotes.js';
 
 const notesCollection = new DataStorage(startDataNotes);

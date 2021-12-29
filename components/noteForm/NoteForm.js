@@ -1,7 +1,5 @@
-import {
-    noteActions,
-    noteCategoryNames
-} from '../../constants';
+import noteActions from '../../constants/noteAction.enum.js';
+import noteCategoryNames from '../../constants/noteCategoryName.enum.js';
 
 const categoryNames = Object.values(noteCategoryNames);
 
@@ -35,9 +33,8 @@ export default function NoteForm(
 
     const selectCategory = inputsBlock.appendChild(document.createElement('select'));
     selectCategory.className = 'note-form__select control-element';
-    console.log(selectCategory.value);
 
-    categoryNames.forEach((categoryName, index) => {
+    categoryNames.forEach(categoryName => {
         const optionCategory = selectCategory.appendChild(document.createElement('option'));
         optionCategory.innerText = categoryName;
 

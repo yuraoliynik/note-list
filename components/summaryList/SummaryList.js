@@ -1,5 +1,5 @@
 import ArchiveNoteList from '../archiveNoteList/ArchiveNoteList.js';
-import {notesCollection} from '../../data';
+import notesCollection from '../../data/notesCollection.js';
 import Row from '../row/Row.js';
 
 export default function SummaryList(

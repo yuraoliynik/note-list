@@ -1,10 +1,10 @@
-import {Note} from '../classes';
-import {noteActions} from '../constants';
-import {notesCollection} from '../data';
+import Note from '../classes/Note.js';
+import noteActions from '../constants/noteAction.enum.js';
+import notesCollection from '../data/notesCollection.js';
 import NoteForm from '../components/noteForm/NoteForm.js';
 import NoteList from '../components/noteList/NoteList.js';
 import SummaryList from '../components/summaryList/SummaryList.js';
-import tools from '../tools';
+import formatDate from '../tools/formatDate.js';
 
 const noteTableBody = document.querySelector('.note-table__body');
 
@@ -31,7 +31,7 @@ const app = {
         }
 
         const activeNoteIndex = event.target.parentElement.id;
-        console.log(activeNoteIndex);
+
         notesCollection.editData(
             activeNoteIndex,
             {archive: 0}
@@ -64,9 +64,7 @@ const app = {
     },
 
     [noteActions.CREATE]() {
-        console.log('create');
-
-        const dateNow = tools.formatDate(new Date());
+        const dateNow = formatDate(new Date());
 
         if (!noteForm) {
             createButton.hidden = true;
@@ -114,7 +112,7 @@ const app = {
             rowForEdit,
             {
                 name,
-                created: tools.formatDate(created),
+                created: formatDate(created),
                 category,
                 content
             }

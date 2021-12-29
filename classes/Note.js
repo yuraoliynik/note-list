@@ -1,4 +1,4 @@
-import tools from '../tools';
+import findDates from '../tools/findDates.js';
 
 export default class Note {
 
@@ -33,7 +33,7 @@ export default class Note {
                 configurable: true,
                 get() {
                     if (this.content) {
-                        return tools.findDates(this.content);
+                        return findDates(this.content);
                     }
 
                     return '';

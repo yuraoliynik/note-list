@@ -1,5 +1,5 @@
-import {Note} from '../classes';
-import {noteCategoryNames} from '../constants';
+import Note from '../classes/Note.js';
+import noteCategoryNames from '../constants/noteCategoryName.enum.js';
 
 export default [
     new Note(
