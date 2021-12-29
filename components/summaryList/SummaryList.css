@@ -1,0 +1,17 @@
+.summary-table__header {
+    padding-left: 50px;
+    padding-right: 50px;
+    justify-content: space-around;
+}
+
+.summary-table__row {
+    padding-left: 50px;
+    padding-right: 50px;
+    width: 100%;
+}
+
+.summary-table__row > .summary-table__cell {
+    display: flex;
+    justify-content: center;
+    width: calc(100% / 3);
+}
