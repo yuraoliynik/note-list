@@ -1,11 +1,10 @@
-import Row from './Row.js';
-import Cell from './Cell.js';
-import {noteActions} from '../constants';
+import Cell from '../cell/Cell.js';
+import {noteActions} from '../../constants';
+import Row from '../row/Row.js';
 
 const columnNames = [
     'Name',
     'Created',
-    'Category',
     'Content',
     'Dates',
     'Action'
@@ -14,8 +13,6 @@ const columnNames = [
 export default function ArchiveNoteList(
     parentElement,
     classNameTable = '',
-    classNameRow = '',
-    classNameCell = '',
     archiveNotesArray = []
 ) {
     const archiveNoteList = parentElement.appendChild(document.createElement('div'));
@@ -25,36 +22,35 @@ export default function ArchiveNoteList(
     }
 
     const row = archiveNoteList.appendChild(document.createElement('div'));
-    row.className = classNameRow;
+    row.className = 'archive-table__header';
 
     columnNames.forEach(columnName => {
         Cell(
             row,
-            classNameCell,
+            'archive-table__cell',
             columnName
         );
     });
 
-    archiveNotesArray.forEach((note, index) => {
+    archiveNotesArray.forEach(note => {
         const archiveNote = {...note};
         delete archiveNote.category;
         delete archiveNote.id;
 
         const row = Row(
             archiveNoteList,
-            classNameRow,
-            classNameCell,
+            'archive-table__row',
+            'archive-table__cell',
             archiveNote
         );
 
-        row.id = note.id;
-
         const sell = Cell(
             row,
-            classNameCell,
+            'archive-table__cell cursor_pointer',
             noteActions.ACTIVE
         );
 
+        sell.id = note.id;
         sell.dataset.action = noteActions.ACTIVE;
     });
 

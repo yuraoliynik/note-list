@@ -1,36 +1,22 @@
-import {notesCollection} from '../data';
-import NoteList from '../components/NoteList.js';
-import NoteForm from '../components/noteForm/NoteForm.js';
 import {Note} from '../classes';
-import SummaryList from '../components/SummaryList.js';
-import {noteActions, noteCategoryNames} from '../constants';
+import {noteActions} from '../constants';
+import {notesCollection} from '../data';
+import NoteForm from '../components/noteForm/NoteForm.js';
+import NoteList from '../components/noteList/NoteList.js';
+import SummaryList from '../components/summaryList/SummaryList.js';
 import tools from '../tools';
-import ArchiveNoteList from '../components/ArchiveNoteList.js';
 
-
-const noteTableBody = document.querySelector('.note-table-body');
+const noteTableBody = document.querySelector('.note-table__body');
 
 const notes = notesCollection.getData();
 const activeNotes = notes.filter(note => note.archive === 0);
 
-let noteList = NoteList(
-    noteTableBody,
-    '',
-    'note-table-row',
-    'note-table-column',
-    activeNotes
-);
+let noteList = NoteList(noteTableBody, activeNotes);
 
-const summaryTableBody = document.querySelector('.summary-table-body');
+const summaryTableBody = document.querySelector('.summary-table__body');
 const summaryNotes = notesCollection.doSummary();
 
-let summaryList = SummaryList(
-    summaryTableBody,
-    'summary-list',
-    'summary-table-row',
-    'summary-table-column',
-    summaryNotes
-);
+let summaryList = SummaryList(summaryTableBody, summaryNotes);
 
 const createButton = document.querySelector('.create-button');
 createButton.dataset.action = noteActions.CREATE;
@@ -40,10 +26,12 @@ let noteIndex;
 
 const app = {
     [noteActions.ACTIVE](event) {
-        console.log('active');
+        if (noteForm) {
+            return;
+        }
 
         const activeNoteIndex = event.target.parentElement.id;
-
+        console.log(activeNoteIndex);
         notesCollection.editData(
             activeNoteIndex,
             {archive: 0}
@@ -53,7 +41,9 @@ const app = {
     },
 
     [noteActions.ARCHIVE](event) {
-        console.log('archive');
+        if (noteForm) {
+            return;
+        }
 
         const archiveNoteIndex = event.target.parentElement.id;
 
@@ -66,11 +56,11 @@ const app = {
     },
 
     [noteActions.CANCEL]() {
-        console.log('cancel');
-
         noteForm = noteForm.remove();
 
         createButton.hidden = false;
+
+        _renderListAndSummary();
     },
 
     [noteActions.CREATE]() {
@@ -91,8 +81,9 @@ const app = {
     },
 
     [noteActions.DELETE](event) {
-        console.log('delete');
-
+        if (noteForm) {
+            return;
+        }
         const noteIndex = event.target.parentElement.id;
 
         notesCollection.deleteData(noteIndex);
@@ -101,9 +92,13 @@ const app = {
     },
 
     [noteActions.EDIT](event) {
-        console.log('edit');
+        if (noteForm) {
+            return;
+        }
 
-        const rowForEdit = event.target.parentElement.parentElement;
+        const parent = event.target.closest('.note-table__list');
+        const rowForEdit = event.target.closest('.note-table__row');
+
         noteIndex = event.target.parentElement.id;
 
         const {
@@ -113,22 +108,23 @@ const app = {
             content
         } = notes[noteIndex];
 
-        if (!noteForm) {
-            noteForm = NoteForm(
-                rowForEdit,
-                {
-                    name,
-                    created: tools.formatDate(created),
-                    category,
-                    content
-                }
-            );
-        }
+        rowForEdit.style.margin = 'unset';
+
+        noteForm = NoteForm(
+            rowForEdit,
+            {
+                name,
+                created: tools.formatDate(created),
+                category,
+                content
+            }
+        );
+
+        noteForm.style.marginBottom = '7px';
+        parent.insertBefore(noteForm, rowForEdit.nextSibling);
     },
 
-    [noteActions.SAVE](event) {
-        console.log('save');
-
+    [noteActions.SAVE]() {
         const controlElements = document.getElementsByClassName('control-element');
 
         const name = controlElements[0].value;
@@ -148,7 +144,7 @@ const app = {
         }
 
         if (noteIndex !== undefined) {
-            const a = notesCollection.editData(
+            notesCollection.editData(
                 noteIndex,
                 {
                     name: newNote.name,
@@ -170,7 +166,8 @@ const app = {
 };
 
 document.addEventListener('click', (event) => {
-    let action = event.target.dataset.action;
+    let action = event.target.dataset.action ||
+        event.target.parentElement.dataset.action;
 
     if (action) {
         app[action](event);
@@ -183,40 +180,11 @@ function _renderListAndSummary() {
 
     noteList.remove();
 
-    noteList = NoteList(
-        noteTableBody,
-        '',
-        'note-table-row',
-        'note-table-column',
-        activeNotes
-    );
+    noteList = NoteList(noteTableBody, activeNotes);
 
     const summaryNotes = notesCollection.doSummary();
 
     summaryList.remove();
 
-    summaryList = SummaryList(
-        summaryTableBody,
-        'summary-list',
-        'summary-table-row',
-        'summary-table-column',
-        summaryNotes
-    );
-}
-
-function _renderArchiveList(parentElement, previousElement, classes, categoryName) {
-    const notesByCategory = notes.filter(note => {
-        return note.category === categoryName &&
-            note.archive === 1;
-    });
-
-    const archiveNoteList = ArchiveNoteList(
-        parentElement,
-        classes,
-        'summary-table-row',
-        'summary-table-column',
-        notesByCategory
-    );
-
-    parentElement.insertBefore(archiveNoteList, previousElement.nextSibling);
+    summaryList = SummaryList(summaryTableBody, summaryNotes);
 }

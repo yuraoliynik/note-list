@@ -1,10 +1,10 @@
+import {noteCategoryNames} from '../constants';
 import {DataStorage} from '../classes';
 import startDataNotes from './startDataNotes.js';
-import {noteCategoryNames} from '../constants';
 
 const notesCollection = new DataStorage(startDataNotes);
 
-notesCollection.doSummary = function() {
+notesCollection.doSummary = function () {
     const noteCategoryNamesArr = Object.values(noteCategoryNames);
 
     const notesArray = notesCollection.getData();

@@ -1,7 +1,7 @@
 export default function Cell(
     parentElement,
     className = '',
-    innerText= ''
+    innerText = ''
 ) {
     const cell = parentElement.appendChild(document.createElement('div'));
 
@@ -9,7 +9,8 @@ export default function Cell(
         cell.className = className;
     }
 
-    cell.innerText = innerText;
+    const p = cell.appendChild(document.createElement('p'));
+    p.innerText = innerText;
 
     return cell;
 };

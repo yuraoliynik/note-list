@@ -1,4 +1,4 @@
-import Cell from '../components/Cell.js';
+import Cell from '../cell/Cell.js';
 
 export default function Row(
     parentElement,

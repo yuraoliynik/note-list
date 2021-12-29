@@ -1,26 +1,19 @@
-import Row from './Row.js';
-import ArchiveNoteList from './ArchiveNoteList.js';
-import {notesCollection} from '../data';
-import {noteCategoryNames} from '../constants';
+import ArchiveNoteList from '../archiveNoteList/ArchiveNoteList.js';
+import {notesCollection} from '../../data';
+import Row from '../row/Row.js';
 
 export default function SummaryList(
     parentElement,
-    classNameTable = '',
-    classNameRow = '',
-    classNameCell = '',
     SummaryDataArray = []
 ) {
     const summaryList = parentElement.appendChild(document.createElement('div'));
-
-    if (classNameTable) {
-        summaryList.className = classNameTable;
-    }
+    summaryList.className = 'summary-table__list';
 
     SummaryDataArray.forEach((summaryItem, index) => {
         const summaryRow = Row(
             summaryList,
-            classNameRow,
-            classNameCell,
+            'summary-table__row table__row cursor_pointer',
+            'summary-table__cell',
             summaryItem
         );
 
@@ -36,7 +29,7 @@ export default function SummaryList(
 };
 
 function handleClickSummaryRow(parentElement, previousElement, categoryName, index) {
-    const archiveNoteTable = document.querySelector(`.archive-note-table-${index}`);
+    const archiveNoteTable = document.querySelector(`.archive-table-${index}`);
 
     if (archiveNoteTable && archiveNoteTable.hidden) {
         return archiveNoteTable.hidden = false;
@@ -54,11 +47,11 @@ function handleClickSummaryRow(parentElement, previousElement, categoryName, ind
     });
 
     if (notesByCategory.length) {
+        previousElement.style.marginBottom = '4px';
+
         const archiveNoteList = ArchiveNoteList(
             parentElement,
-            `${categoryName} archive-note-table-${index} summary-table`,
-            'summary-table-row',
-            'summary-table-column',
+            `${categoryName} archive-table-${index} archive-table`,
             notesByCategory
         );
 

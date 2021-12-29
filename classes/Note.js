@@ -11,11 +11,12 @@ export default class Note {
 
         this.created = new Intl
             .DateTimeFormat(
-            'en-US',
-            {
-                month: 'short',
-                year: 'numeric',
-                day: 'numeric'}
+                'en-US',
+                {
+                    month: 'short',
+                    year: 'numeric',
+                    day: 'numeric'
+                }
             )
             .format(
                 new Date(created)
@@ -39,7 +40,6 @@ export default class Note {
                 }
             }
         );
-
 
         this.archive = archive;
 

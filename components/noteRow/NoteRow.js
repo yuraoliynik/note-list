@@ -1,6 +1,6 @@
-import Cell from '../components/Cell.js';
-import {noteActions} from '../constants';
-import Row from '../components/Row.js';
+import Cell from '../cell/Cell.js';
+import {noteActions} from '../../constants';
+import Row from '../row/Row.js';
 
 const noteListActions = [
     noteActions.EDIT,
@@ -16,26 +16,29 @@ export default function NoteRow(
     index = 0
 ) {
     const noteRow = parentElement.appendChild(document.createElement('div'));
+    noteRow.className = classNameRow;
 
     const note = {...noteObject};
     delete note.id;
 
-    const row = Row(
+    Row(
         noteRow,
-        classNameRow,
+        'note-table__data-block',
         classNameCell,
         note
     );
 
-    row.id = index;
+    const actionBlock = noteRow.appendChild(document.createElement('div'));
+    actionBlock.className = 'note-table__action-block';
 
     noteListActions.forEach(actionName => {
         const sell = Cell(
-            row,
-            classNameCell,
+            actionBlock,
+            `${classNameCell} cursor_pointer`,
             actionName
         );
 
+        sell.id = index.toString();
         sell.dataset.action = actionName;
     })
 
